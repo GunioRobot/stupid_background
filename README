@@ -1,0 +1,75 @@
+StupidBackground
+================
+
+This is a very simple background scheduler for periodical tasks to be performed
+in your rails application.
+
+Take the name as the spirit behind this small piece of software! There is no
+fancy threading action going on and you should not use this if your life in
+any way to an exact timing of one of your jobs. 
+
+The intervals you configure
+are meant as "at least this time is BETWEEN two runs of the job".
+So if you have a interval of 5 seconds and your tasks takes 30 seconds to run
+it behaves this way:
+
+Second 0: Your Task
+...
+Second 30: Your Task finishes
+Second 30: Another run of your job
+
+If your task takes only 2 seconds to run it would look like this:
+
+Second 0: Your Task
+...
+Second 2: Your Task finishes
+...
+Second 5: Another run of your job
+...
+
+But there is a way to run more than one "runner" at the same time.
+Maybe you have some very long running tasks and some very quick ones. Then
+you can specify a runner with:
+
+  use_runner :some_fancy_name
+
+in your worker class and this worker will be decoupled from the other ones.
+If you specify the same name at two worker classes these classes will run in
+one worker. Easy, isn't it ;)
+
+If you need a more versatile solution you should have look at BackgrounDRB and
+if you only need background tasks that do not repeat check the 
+backgroundFu Plugin.
+
+Credits
+=======
+I'm using the Daemonize Library from Travis Whitton, which could be 
+found at http://grub.ath.cx/daemonize/ .
+
+This library is released under the LGPL.
+Thanks a lot for this cute peace of software Travis!
+
+Also kudos to the #ruby-de IRC channel on freenode.org, those guys are great and
+very helpful!
+
+Example
+=======
+Start the background server:
+rake background:start
+
+Stop the background server:
+rake background:stop
+
+Start the server with an alternative Jobs YAMl File
+(The default Jobs YAML file is at config/background_jobs.yml)
+rake background:start jobs_file=/tmp/some_jobs.yml
+
+Status of your runners:
+rake backgrund:status
+
+Contact
+=======
+Contact Thorben, the creator of this little plugin: thorben@fetmab.net
+
+
+Copyright (c) 2007-2009  FEtMab - Die Browserspiele-Manufaktur, released under the BSD license

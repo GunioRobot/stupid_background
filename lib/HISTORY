@@ -1,0 +1,27 @@
+Version 0.2 (29th December 2008)
+- Introduced the "at" method to the worker DSL. It's now possible to start a
+  worker at a given time of the day. E.g. when you would like to run a job at
+  1:30 a.m. and 1:30 p.m. you can do it now:
+    call(:your_task).at(1.30.o_clock).every(12.hours)
+- Added a logger so that workers can use it to communicate errors etc.
+  It writes to log/stupd_background.log
+- Updated the README file to reflect those changes 
+
+Version 0.1.2 (11th February 2008)
+- Added the 'user_runner :some_name' to the workers
+  With this 'flag' it is possible to assign multiple workers to different runner
+  so that they can run concurrently. Of course this increases your memory 
+  footprint a lot, because every runner loads a full Rails environment, but
+  it's an easy solution and work guaranteed, no threading etc ;)
+  If two workers use the same 'runner name' then they are running on the same
+  runner. So it's simple to group the workers into a few runner. Maybe a 
+  ':long_running_runner' and a ':fast_runner' or so. 
+- Also added a first spec! WOOOOAH! :) It's just a start and very... crappy but
+  it's some kind of unit test and it's definitely the way to go and better than
+  no test at all.
+
+Version 0.1.1 (17th January 2008)
+- Initial Release
+- The first 'public' release of StupidBackground
+- There is/was a 0.1.0 release but I got something wrong in the repository, so
+  the first version is 0.1.1 instead ;)
